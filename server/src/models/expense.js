@@ -4,8 +4,14 @@ const expenseSchema = new mongoose.Schema(
   {
     title: {
       type: String,
-      required: [true, "Title is required"],
+      required: false,
       trim: true,
+    },
+
+    type: {
+      type: String,
+      enum: ["expense", "income"],
+      default: "expense",
     },
 
     amount: {
@@ -26,6 +32,13 @@ const expenseSchema = new mongoose.Schema(
         "Healthcare",
         "Education",
         "Others",
+        "Rent",
+        "Utilities",
+        "Other",
+        "Salary",
+        "Freelance",
+        "Allowance",
+        "Gift"
       ],
     },
 

@@ -84,8 +84,8 @@ export default function ExpenseTable({ expenses = [], onEdit, onDelete, loading 
                   </span>
                 </td>
                 <td className="px-5 py-3.5">{expense.title}</td>
-                <td className="px-5 py-3.5 text-right font-mono font-medium text-rust">
-                  - Rs {Number(expense.amount).toLocaleString()}
+                <td className={`px-5 py-3.5 text-right font-mono font-medium ${expense.type === "income" ? "text-green" : "text-rust"}`}>
+                  {expense.type === "income" ? "+" : "-"} Rs {Number(expense.amount).toLocaleString()}
                 </td>
                 <td className="px-5 py-3.5">
                   <div className="flex items-center justify-end gap-3 text-muted">

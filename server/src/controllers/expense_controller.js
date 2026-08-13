@@ -2,20 +2,21 @@ import Expense from "../models/expense.js";
 
 export const addExpense = async (req, res, next) => {
     try {
-        const { title, amount, date, category, description, paymentMethod } = req.body;
+        const { title, amount, date, category, description, paymentMethod, type } = req.body;
         const userId = req.user._id;
 
-        if (!title || !amount || !category) {
-            throw new Error("Title, amount, and category are required");
+        if (!amount || !category) {
+            throw new Error("Amount and category are required");
         }
 
         const newExpense = await Expense.create({
-            title,
+            title: title || category,
             amount,
             date,
             category,
             description,
             paymentMethod,
+            type,
             user: userId
         });
 
@@ -71,9 +72,14 @@ export const updateExpense = async (req, res, next)=>{
             throw new Error("Expense not found");
         }
 
+        const updateData = { ...req.body };
+        if (updateData.category && !updateData.title) {
+            updateData.title = updateData.category;
+        }
+
         const updatedExpense = await Expense.findByIdAndUpdate(
             req.params.id,
-            req.body,
+            updateData,
             { new: true }
         );
 
